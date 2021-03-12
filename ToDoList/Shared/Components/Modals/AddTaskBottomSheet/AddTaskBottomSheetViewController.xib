@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddTaskBottomSheetViewController" customModule="ToDoList" customModuleProvider="target">
+            <connections>
+                <outlet property="addTaskButton" destination="CTF-Ph-Zt0" id="xm4-Fz-teF"/>
+                <outlet property="taskDescriptionLabel" destination="Ibr-SM-Vfj" id="YdJ-NS-j2c"/>
+                <outlet property="taskNameTextField" destination="5XL-Ee-g6V" id="eP5-bN-7et"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5XL-Ee-g6V">
+                    <rect key="frame" x="20" y="269" width="374" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ajouter une tâche" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gp4-wy-Bxl">
+                    <rect key="frame" x="20" y="220" width="374" height="29"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ibr-SM-Vfj">
+                    <rect key="frame" x="20" y="323" width="374" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTF-Ph-Zt0">
+                    <rect key="frame" x="20" y="367" width="374" height="30"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                    <color key="tintColor" systemColor="systemPinkColor"/>
+                    <state key="normal" title="Ajouter la tâche"/>
+                    <connections>
+                        <action selector="addTaskButtonTapped:" destination="-1" eventType="touchUpInside" id="UmD-5b-bfN"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="5XL-Ee-g6V" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="225" id="8tf-Lk-wGb"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Ibr-SM-Vfj" secondAttribute="trailing" constant="20" id="H0g-Hj-dzW"/>
+                <constraint firstItem="Ibr-SM-Vfj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Nzn-Ai-umn"/>
+                <constraint firstItem="CTF-Ph-Zt0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="O2a-TL-E2G"/>
+                <constraint firstItem="CTF-Ph-Zt0" firstAttribute="top" secondItem="Ibr-SM-Vfj" secondAttribute="bottom" constant="10" id="Rlh-2o-PvC"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CTF-Ph-Zt0" secondAttribute="trailing" constant="20" id="Uia-04-EFZ"/>
+                <constraint firstItem="Gp4-wy-Bxl" firstAttribute="bottom" secondItem="5XL-Ee-g6V" secondAttribute="top" constant="-20" id="bbi-7y-KBJ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Gp4-wy-Bxl" secondAttribute="trailing" constant="20" id="gj3-EH-Lfw"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="5XL-Ee-g6V" secondAttribute="trailing" constant="20" id="hIo-OF-U66"/>
+                <constraint firstItem="Ibr-SM-Vfj" firstAttribute="top" secondItem="5XL-Ee-g6V" secondAttribute="bottom" constant="20" id="lPz-Dl-YOn"/>
+                <constraint firstItem="5XL-Ee-g6V" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="mVs-bR-Zyc"/>
+                <constraint firstItem="Gp4-wy-Bxl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="mck-SY-81q"/>
+            </constraints>
+            <point key="canvasLocation" x="14" y="60"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
