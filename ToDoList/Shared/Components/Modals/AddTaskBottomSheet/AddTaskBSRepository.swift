@@ -8,7 +8,7 @@
 import Foundation
 
 class AddTaskBSRepository {
-    let service = CoreDataService.shared
+    let service = CoreDataManager.shared
     
     func createTask(title: String, description: String? = "") -> Task {
         let task = TaskModel.createTask(uuid: UUID().uuidString, title: title, desc: description)

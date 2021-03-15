@@ -1,8 +1,8 @@
 //
 //  TaskModel.swift
-//  ToDoList
+//  TodoList Watch Extension
 //
-//  Created by Nossedjou Steve on 11/03/2021.
+//  Created by Nossedjou Steve on 15/03/2021.
 //
 
 import Foundation
@@ -14,8 +14,9 @@ class TaskModel : NSManagedObject {
     var desc: String!
     var done: Bool!
     
-    static func createTask(uuid: String, title: String, desc: String?, done: Bool = false) -> Task {
-        let task = Task(entity: CoreDataManager.shared.entityFor(entityName: Constants.taskEntityName), insertInto: CoreDataManager.shared.managedContext)
+    static func createTask(uuid: String, title: String, desc: String?, done: Bool = false) -> NSManagedObject {
+        let task = NSManagedObject(entity: CoreDataManager.shared.entityFor(entityName: Constants.taskEntityName), insertInto: CoreDataManager.shared.managedContext)
+        
         task.setValue(uuid, forKey: "uuid")
         task.setValue(title, forKey: "title")
         task.setValue(desc, forKey: "desc")

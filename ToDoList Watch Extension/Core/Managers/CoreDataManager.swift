@@ -1,25 +1,26 @@
 //
 //  CoreDataService.swift
-//  ToDoList
+//  TodoList Watch WatchKit Extension
 //
-//  Created by Nossedjou Steve on 11/03/2021.
+//  Created by Nossedjou Steve on 12/03/2021.
 //
 
 import Foundation
 import CoreData
 import UIKit
+import WatchKit
 
-class CoreDataService {
-    var appDelegate: AppDelegate!
+class CoreDataManager {
+    var extensionDelegate: ExtensionDelegate!
     
-    static let shared = CoreDataService()
+    static let shared = CoreDataManager()
     
     var managedContext: NSManagedObjectContext {
-        return self.appDelegate.persistentContainer.viewContext
+        return self.extensionDelegate.persistentContainer.viewContext
     }
     
     init() {
-        appDelegate = UIApplication.shared.delegate as? AppDelegate
+        extensionDelegate = WKExtension.shared().delegate as? ExtensionDelegate;
     }
     
     func entityFor(entityName: String) -> NSEntityDescription {

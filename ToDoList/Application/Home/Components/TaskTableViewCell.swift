@@ -11,7 +11,11 @@ class TaskTableViewCell: UITableViewCell {
     var isChecked: Bool = false {
         didSet {
             if isChecked {
-                checkBoxImageView.image = UIImage(systemName: "app.fill")
+                if #available(iOS 13.0, *) {
+                    checkBoxImageView.image = UIImage(systemName: "app.fill")
+                } else {
+                    checkBoxImageView.image = UIImage(named: "app.fill")
+                }
                 let titleAttributeString: NSMutableAttributedString =  NSMutableAttributedString(string: self.titleLabel.text!)
                 titleAttributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, titleAttributeString.length))
                 self.titleLabel.attributedText = titleAttributeString
@@ -21,7 +25,11 @@ class TaskTableViewCell: UITableViewCell {
                 self.dateLabel.attributedText = dateAttributeString
             }
             else {
-                checkBoxImageView.image = UIImage(systemName: "app")
+                if #available(iOS 13.0, *) {
+                    checkBoxImageView.image = UIImage(systemName: "app")
+                } else {
+                    checkBoxImageView.image = UIImage(named: "app")
+                }
                 let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: self.titleLabel.text!)
                 self.titleLabel.attributedText = attributeString
                 

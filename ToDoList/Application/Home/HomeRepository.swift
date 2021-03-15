@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 class HomeRepository {
-    let service = CoreDataService.shared
+    let service = CoreDataManager.shared
     
     func updateTask(uuid: String, title: String, description: String, done: Bool) -> Bool {
         let predicate = NSPredicate(format: "uuid = %@", uuid)

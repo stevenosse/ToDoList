@@ -18,17 +18,22 @@ class HomeViewController: ViewController, UISearchControllerDelegate {
     
     var filteredTasks: [Task] = []
     
+    let watchManager = WatchManager.shared
+    
     func filterContentForSearchText(_ searchText: String) {
         filteredTasks = viewModel.taskList.filter { (task: Task) -> Bool in
             return (task.value(forKey: "title") as? String)!.lowercased().contains(searchText.lowercased())
                     || (task.value(forKey: "desc") as? String)!.lowercased().contains(searchText.lowercased())
         }
-        
-        if searchText.isEmpty {
-            viewModel.loadTaskList()
-        } else {
-            viewModel.taskList = filteredTasks
-        }
+        taskListView.reloadData()
+    }
+    
+    var isSearchBarEmpty: Bool {
+      return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    var isFiltering: Bool {
+      return searchController.isActive && !isSearchBarEmpty
     }
     
     override func viewDidLoad() {
@@ -45,6 +50,7 @@ class HomeViewController: ViewController, UISearchControllerDelegate {
         setupRightBarButtons()
         setupSearchBar()
         setupViewModel()
+        setupWatchListeners()
         
         fetchData()
     }
@@ -67,7 +73,6 @@ class HomeViewController: ViewController, UISearchControllerDelegate {
         let addTaskButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addTaskButtonTapped))
         navigationItem.rightBarButtonItems = [addTaskButton]
     }
-    
     func setupTableView() {
         self.taskListView.delegate = self
         self.taskListView.dataSource = self
@@ -87,6 +92,7 @@ class HomeViewController: ViewController, UISearchControllerDelegate {
                 } else {
                     hideEmptyState()
                     self.taskListView.reloadData()
+                    self.sendTodoListToWatch()
                 }
                 
             }
@@ -109,14 +115,19 @@ extension HomeViewController : UITableViewDelegate {
 
 extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            return filteredTasks.count
+        }
         return viewModel.taskList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = Bundle.main.loadNibNamed("TaskTableViewCell", owner: self, options: nil)?.first as! TaskTableViewCell
-        cell.titleLabel.text = viewModel.taskList[indexPath.row].value(forKey: "title")! as? String
-        cell.dateLabel.text = viewModel.taskList[indexPath.row].value(forKey: "desc")! as? String
-        if viewModel.taskList[indexPath.row].value(forKey: "done") as? Bool ?? false {
+        
+        let item = isFiltering ? filteredTasks[indexPath.row] : viewModel.taskList[indexPath.row]
+        cell.titleLabel.text = item.value(forKey: "title")! as? String
+        cell.dateLabel.text = item.value(forKey: "desc")! as? String
+        if item.value(forKey: "done") as? Bool ?? false {
             cell.toggleChecked()
         }
         return cell
@@ -135,6 +146,7 @@ extension HomeViewController : UITableViewDataSource {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Supprimer") {_,_,_ in
             self.viewModel.removeTask(self.viewModel.taskList[indexPath.row])
+            self.sendTodoListToWatch()
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         deleteAction.image = UIImage(systemName: "trash")
@@ -146,6 +158,7 @@ extension HomeViewController : UITableViewDataSource {
         cell.toggleChecked()
         self.viewModel.markDone(uuid: self.viewModel.taskList[indexPath.row].value(forKey: "uuid") as! String)
         tableView.deselectRow(at: indexPath, animated: true)
+        self.sendTodoListToWatch()
     }
     
     func hideEmptyState() {
@@ -165,5 +178,25 @@ extension HomeViewController : UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text! as String
         filterContentForSearchText(query)
+    }
+}
+
+extension HomeViewController {
+    func setupWatchListeners() {
+        watchManager.onSyncMessageReceived = { [self] (data) in
+            self.sendTodoListToWatch()
+        }
+    }
+    
+    func sendTodoListToWatch() {
+        var dict: [String:Any] = [:]
+        viewModel.taskList.forEach( { (task) in
+            dict[task.value(forKey: "uuid") as! String] = [
+                "title": task.value(forKey: "title") as! String,
+                "desc": task.value(forKey: "desc") as! String,
+                "done": task.value(forKey: "done") as! Bool
+            ]
+        })
+        watchManager.sendWatchMessage(message: ["TodoList": dict])
     }
 }
